@@ -5,7 +5,6 @@ import (
 	"github.com/acharapko/pbench/client"
 	"github.com/acharapko/pbench/db"
 	"github.com/acharapko/pbench/idservice"
-	"github.com/acharapko/pbench/protocols/topsmr"
 	"github.com/acharapko/pbench/util"
 	"math"
 	"math/rand"
@@ -66,8 +65,6 @@ func NewBenchmark(preferredId idservice.ID, algorithm string) *Benchmark {
 	for i := 0; i < b.Concurrency; i++ {
 		db := new(RWClient)
 		switch algorithm {
-		case "topsmr":
-			db.Client = topsmr.NewHlcClient(preferredId, idservice.NewIDFromString("0." + strconv.Itoa(i+1)))
 		case "paxos", "batchedpaxos":
 			db.Client = client.NewClient(preferredId, idservice.NewIDFromString("0." + strconv.Itoa(i+1)))
 		}

@@ -18,11 +18,11 @@ func Test(t *testing.T) {
 	}
 
 	if s.Peek().(int) != 1 {
-		t.Errorf("TopSMR item on the stack should be 1")
+		t.Errorf("item on the stack should be 1")
 	}
 
 	if s.Pop().(int) != 1 {
-		t.Errorf("TopSMR item should have been 1")
+		t.Errorf("item should have been 1")
 	}
 
 	if s.Len() != 0 {
@@ -37,6 +37,6 @@ func Test(t *testing.T) {
 	}
 
 	if s.Peek().(int) != 2 {
-		t.Errorf("TopSMR of the stack should be 2")
+		t.Errorf("of the stack should be 2")
 	}
 }

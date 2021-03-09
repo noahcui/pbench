@@ -8,7 +8,6 @@ import (
 	"github.com/acharapko/pbench/log"
 	"github.com/acharapko/pbench/protocols/batchedpaxos"
 	"github.com/acharapko/pbench/protocols/paxos"
-	"github.com/acharapko/pbench/protocols/topsmr"
 	"sync"
 )
 
@@ -27,9 +26,6 @@ func replica(id idservice.ID) {
 		paxos.NewReplica(id).Run()
 	case "batchedpaxos":
 		batchedpaxos.NewReplica(id).Run()
-	case "topsmr":
-		topsmr.NewReplica(id).Run()
-
 
 	default:
 		panic("Unknown algorithm")
