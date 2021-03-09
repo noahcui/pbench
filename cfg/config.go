@@ -11,7 +11,6 @@ import (
 
 var configFile = flag.String("config", "config.json", "Configuration file for replica. Defaults to config.json.")
 
-
 // Bconfig holds all benchmark configuration
 type Bconfig struct {
 	T                    int     // total number of running time in seconds
@@ -77,8 +76,8 @@ func DefaultBConfig() Bconfig {
 type Config struct {
 	Addrs     		map[idservice.ID]string // address for node communication
 	AddrsStr   		map[string]string        `json:"address"`      // address for node communication
-	HTTPAddrs 		map[idservice.ID]string // address for client server communication
-	HTTPAddrsStr	map[string]string        `json:"http_address"` // address for client server communication
+	HTTPAddrs 		map[idservice.ID]string // address for http client server communication
+	HTTPAddrsStr	map[string]string        `json:"http_address"` // address for http client server communication
 
 	UseRetroLog		bool 	 `json:"use_retro_log"`
 

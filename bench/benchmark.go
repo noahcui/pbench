@@ -65,7 +65,7 @@ func NewBenchmark(preferredId idservice.ID, algorithm string) *Benchmark {
 	for i := 0; i < b.Concurrency; i++ {
 		db := new(RWClient)
 		switch algorithm {
-		case "paxos", "batchedpaxos":
+		case "paxos", "batchedpaxos", "epaxos":
 			db.Client = client.NewClient(preferredId, idservice.NewIDFromString("0." + strconv.Itoa(i+1)))
 		}
 		b.clients[i] = db

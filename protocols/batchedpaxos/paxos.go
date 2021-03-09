@@ -31,8 +31,6 @@ type entry struct {
 type Paxos struct {
 	node.Node
 
-	config []idservice.ID
-
 	log     map[int]*entry // log ordered by slot
 	execute int            // next execute slot number
 	active  bool           // active leader
