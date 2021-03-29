@@ -11,15 +11,15 @@ if [ -z "${PID}" ]; then
     #go build ../cmd/
     rm -r logs
     mkdir logs/
-    ./server -log_dir=logs -log_level=info -id 1.1 -algorithm=paxos >logs/out1.1.txt 2>&1 &
+    ./server -log_dir=logs -log_level=info -id 1.1 -algorithm=pigpaxos>logs/out1.1.txt 2>&1 &
     echo $! >> ${PID_FILE}
-    ./server -log_dir=logs -log_level=info -id 1.2 -algorithm=paxos >logs/out1.2.txt 2>&1 &
+    ./server -log_dir=logs -log_level=info -id 1.2 -algorithm=pigpaxos >logs/out1.2.txt 2>&1 &
     echo $! >> ${PID_FILE}
-    ./server -log_dir=logs -log_level=info -id 1.3 -algorithm=paxos >logs/out1.3.txt 2>&1 &
+    ./server -log_dir=logs -log_level=info -id 1.3 -algorithm=pigpaxos >logs/out1.3.txt 2>&1 &
     echo $! >> ${PID_FILE}
-    ./server -log_dir=logs -log_level=info -id 1.4 -algorithm=paxos >logs/out1.4.txt 2>&1 &
+    ./server -log_dir=logs -log_level=info -id 1.4 -algorithm=pigpaxos >logs/out1.4.txt 2>&1 &
     echo $! >> ${PID_FILE}
-    ./server -log_dir=logs -log_level=info -id 1.5 -algorithm=paxos >logs/out1.5.txt 2>&1 &
+    ./server -log_dir=logs -log_level=info -id 1.5 -algorithm=pigpaxos >logs/out1.5.txt 2>&1 &
     echo $! >> ${PID_FILE}
 else
     echo "Servers are already started in this folder."

@@ -27,7 +27,7 @@ type Communication interface {
 	GetKnownIDs() []idservice.ID
 
 	// Send put message to outbound queue
-	Send(to idservice.ID, m interface{})
+	Send(to idservice.ID, m interface{}) error
 
 	// MulticastZone send msg to all nodes in the same site
 	MulticastZone(zone int, m interface{})
@@ -213,10 +213,10 @@ func (c *communicator) Recv() interface{} {
 	return <-c.recv
 }
 
-func (c *communicator) Send(to idservice.ID, m interface{}) {
+func (c *communicator) Send(to idservice.ID, m interface{}) error {
 	pm := c.wrapInProtocolMsg(m)
-	c.send(to, pm)
-	log.Debugf("sent %v to %v", m, to)
+	log.Debugf("sending %v to %v", m, to)
+	return c.send(to, pm)
 }
 
 func (c *communicator) MulticastZone(zone int, m interface{}) {
@@ -353,18 +353,18 @@ func (c *communicator) recordInRetrolog(msgId int64, to idservice.ID) {
 	}
 }
 
-func (c *communicator) send(to idservice.ID, m interface{}) {
+func (c *communicator) send(to idservice.ID, m interface{}) error {
 	if c.crash {
-		return
+		return errors.New("crash simulated")
 	}
 
 	if c.drop[to] {
-		return
+		return errors.New("msg drop simulated")
 	}
 
 	if p, ok := c.flaky[to]; ok && p > 0 {
 		if rand.Float64() < p {
-			return
+			return errors.New("flaky msg simulated")
 		}
 	}
 
@@ -373,8 +373,8 @@ func (c *communicator) send(to idservice.ID, m interface{}) {
 	if !exists || t.Mode() == ModeClosed {
 		address, ok := c.addresses[to]
 		if !ok {
-			log.Errorf("communicator does not have address of node %c", to)
-			return
+			log.Errorf("communicator does not have address of node %v", to)
+			return errors.New(fmt.Sprintf("communicator does not have address of node %v", to))
 		}
 		t = NewTransportLink(address, c.id, c.isClient)
 		log.Debugf("Dialing %v", to)
@@ -382,7 +382,8 @@ func (c *communicator) send(to idservice.ID, m interface{}) {
 		if err == nil {
 			c.AddTransportLink(t, to)
 		} else {
-			panic(err)
+			log.Errorf("communicator %v error: %v", to, err)
+			return errors.New(fmt.Sprintf("communicator %v error: %v", to, err))
 		}
 	}
 	c.sendLock[to] <- true
@@ -393,10 +394,11 @@ func (c *communicator) send(to idservice.ID, m interface{}) {
 			<-timer.C
 			t.Send(m)
 		}()
-		return
+		return nil
 	}
 
 	t.Send(m)
+	return nil
 }
 
 func (c *communicator) incrementMsgId() int64 {

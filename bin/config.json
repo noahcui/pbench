@@ -2,22 +2,25 @@
     "address": {
         "1.1": "tcp://127.0.0.1:1735",
         "1.2": "tcp://127.0.0.1:1736",
-        "1.3": "tcp://127.0.0.1:1737"
+        "1.3": "tcp://127.0.0.1:1737",
+        "1.4": "tcp://127.0.0.1:1738",
+        "1.5": "tcp://127.0.0.1:1739"
     },
-    "http_address": {
-        "1.1": "http://127.0.0.1:8080",
-        "1.2": "http://127.0.0.1:8081",
-        "1.3": "http://127.0.0.1:8082"
-    },
+    "ephemeral_leader": true,
     "policy": "majority",
     "threshold": 3,
     "thrifty": false,
     "chan_buffer_size": 1024,
     "buffer_size": 1024,
     "multiversion": false,
-    "use_retro_log": false,
+    "num_relays": 2,
+    "regions_peer_groups": false,
+    "fixed_relays": false,
+    "relay_slack": 0,
+    "std_pig_timeout": 50,
+    "use_small_p2b": true,
     "benchmark": {
-        "T": 5,
+        "T": 10,
         "N": 0,
         "K": 1,
         "W": 0.5,
@@ -35,7 +38,7 @@
         "Zipfian_v": 1,
         "Lambda": 0.01,
         "Size": 8,
-        "OpenLoopWorker": true,
+        "OpenLoopWorker": false,
         "MaxOutstanding": 10,
         "OpenLoopThrottle": 0
     }

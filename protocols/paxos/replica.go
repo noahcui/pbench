@@ -2,6 +2,7 @@ package paxos
 
 import (
 	"flag"
+	"github.com/acharapko/pbench/cfg"
 	"github.com/acharapko/pbench/db"
 	"github.com/acharapko/pbench/idservice"
 	"github.com/acharapko/pbench/log"
@@ -11,7 +12,6 @@ import (
 	"time"
 )
 
-var ephemeralLeader = flag.Bool("ephemeral_leader", false, "unstable leader, if true paxos replica try to become leader instead of forward requests to current leader")
 var read = flag.String("read", "", "read from \"leader\", \"quorum\" or \"any\" replica")
 
 const (
@@ -85,7 +85,7 @@ func (r *Replica) handleClientMsgWrapper(cmw net.ClientMsgWrapper) {
 			return
 		}
 
-		if *ephemeralLeader || r.Paxos.IsLeader() || r.Paxos.Ballot() == 0 {
+		if !cfg.GetConfig().EphemeralLeader || r.Paxos.IsLeader() || r.Paxos.Ballot() == 0 {
 			r.Paxos.HandleRequest(m, cmw.Reply)
 		} else {
 			go r.Forward(r.Paxos.Leader(), m)

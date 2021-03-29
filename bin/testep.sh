@@ -11,11 +11,11 @@ if [ -z "${PID}" ]; then
     #go build ../cmd/
     rm -r logs
     mkdir logs/
-    ./server -log_dir=logs -log_level=debug -id 1.1 -algorithm=epaxos >logs/out1.1.txt 2>&1 &
+    ./server -log_dir=logs -log_level=info -id 1.1 -algorithm=epaxos >logs/out1.1.txt 2>&1 &
     echo $! >> ${PID_FILE}
-    ./server -log_dir=logs -log_level=debug -id 1.2 -algorithm=epaxos >logs/out1.2.txt 2>&1 &
+    ./server -log_dir=logs -log_level=info -id 1.2 -algorithm=epaxos >logs/out1.2.txt 2>&1 &
     echo $! >> ${PID_FILE}
-    ./server -log_dir=logs -log_level=debug -id 1.3 -algorithm=epaxos >logs/out1.3.txt 2>&1 &
+    ./server -log_dir=logs -log_level=info -id 1.3 -algorithm=epaxos >logs/out1.3.txt 2>&1 &
     echo $! >> ${PID_FILE}
 else
     echo "Servers are already started in this folder."

@@ -58,7 +58,6 @@ func NewReplica(id idservice.ID) *Replica {
 	r.Register(Accept{}, r.handleAccept)
 	r.Register(AcceptReply{}, r.handleAcceptReply)
 	r.Register(Commit{}, r.handleCommit)
-
 	return r
 }
 
