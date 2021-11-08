@@ -2,6 +2,9 @@ package main
 
 import (
 	"flag"
+	"net/http"
+	"sync"
+
 	"github.com/acharapko/pbench"
 	"github.com/acharapko/pbench/cfg"
 	"github.com/acharapko/pbench/idservice"
@@ -10,8 +13,7 @@ import (
 	"github.com/acharapko/pbench/protocols/epaxos"
 	"github.com/acharapko/pbench/protocols/paxos"
 	"github.com/acharapko/pbench/protocols/pigpaxos"
-	"net/http"
-	"sync"
+	"github.com/noahcui/pbench/protocols/paxosRB"
 
 	l "log"
 	_ "net/http/pprof"
@@ -31,7 +33,6 @@ func replica(id idservice.ID) {
 		}()
 	}
 
-
 	switch *algorithm {
 
 	case "paxos":
@@ -42,6 +43,8 @@ func replica(id idservice.ID) {
 		pigpaxos.NewReplica(id).Run()
 	case "epaxos":
 		epaxos.NewReplica(id).Run()
+	case "paxosRB":
+		paxosRB.NewReplica(id).Run()
 	default:
 		panic("Unknown algorithm")
 	}
